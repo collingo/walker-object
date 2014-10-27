@@ -1,9 +1,6 @@
 'use strict';
 var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
 var expect = chai.expect;
-chai.use(sinonChai);
 
 var sandbox;
 
@@ -17,16 +14,11 @@ describe('WalkerObject', function() {
   var tree;
 
   beforeEach(function() {
-    sandbox = sinon.sandbox.create();
     walkerObject = new WalkerObject();
     tree = {
       a: ['123', '456'],
       b: ['789', '012']
     };
-  });
-
-  afterEach(function() {
-    sandbox.restore();
   });
 
   describe('child', function() {

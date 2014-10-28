@@ -31,6 +31,11 @@ describe('WalkerObject', function() {
       expect(walkerObject.initialParams).to.deep.equal([[]]);
     });
 
+    it('should be overridable', function() {
+      walkerObject = new WalkerObject('hello');
+      expect(walkerObject.initialParams).to.deep.equal(['hello']);
+    });
+
   });
 
   describe('child', function() {

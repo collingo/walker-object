@@ -1,18 +1,27 @@
-function WalkerObject() {
+function WalkerObject(path) {
+  this.initialParams = [path || []];
   this._stack = [];
-  this.initialParams = [[]];
 };
 WalkerObject.prototype = {
   constructor: WalkerObject,
   child: function(cb, node, path) {
     var next;
     if(typeof node === 'object') {
-      this._stack.unshift(Object.keys(node).map(function(key) {
-        return {
-          key: key,
-          val: node[key]
-        };
-      }));
+      if(Array.isArray(node)) {
+        this._stack.unshift(node.map(function(val, key) {
+          return {
+            key: key,
+            val: val
+          };
+        }));
+      } else {
+        this._stack.unshift(Object.keys(node).map(function(key) {
+          return {
+            key: key,
+            val: node[key]
+          };
+        }));
+      }
       next = this._stack[0].shift();
     }
     if(next) {

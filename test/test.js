@@ -25,19 +25,27 @@ describe('WalkerObject', function() {
     callback = sandbox.spy();
   });
 
+  describe('params', function() {
+
+    it('should be set', function() {
+      expect(walkerObject.initialParams).to.deep.equal([[]]);
+    });
+
+  });
+
   describe('child', function() {
 
     beforeEach(function() {
-      walkerObject.child(callback, tree, '', []);
+      walkerObject.child(callback, tree, []);
     });
 
     it('should call the callback with the first property in the object', function() {
-      expect(callback).to.have.been.calledWith(tree.a, 'a', ['a']);
+      expect(callback).to.have.been.calledWith(tree.a, ['a']);
     });
 
     it('should call the callback with the first item in the array', function() {
       // SUT is stateful so we need to simulate walking the earlier parts of the tree
-      walkerObject.child(callback, tree.a, 'a', ['a']);
+      walkerObject.child(callback, tree.a, ['a']);
       expect(callback).to.have.been.calledWith(tree.a[0]);
     });
 
@@ -47,18 +55,18 @@ describe('WalkerObject', function() {
 
     beforeEach(function() {
       // SUT is stateful so we need to simulate walking the earlier parts of the tree
-      walkerObject.child(callback, tree, '', []);
-      walkerObject.sibling(callback, tree.a, 'a', ['a']);
+      walkerObject.child(callback, tree, []);
+      walkerObject.sibling(callback, tree.a, ['a']);
     });
 
     it('should call the callback with the next property in the object', function() {
-      expect(callback).to.have.been.calledWith(tree.b, 'b', ['b']);
+      expect(callback).to.have.been.calledWith(tree.b, ['b']);
     });
 
     it('should call the callback with the next item in the array', function() {
       // SUT is stateful so we need to simulate walking the earlier parts of the tree
-      walkerObject.child(callback, tree.b, 'b', ['b']);
-      walkerObject.sibling(callback, tree.b[0], '0', ['b', '0']);
+      walkerObject.child(callback, tree.b, ['b']);
+      walkerObject.sibling(callback, tree.b[0], ['b', '0']);
       expect(callback).to.have.been.calledWith(tree.b[1]);
     });
 

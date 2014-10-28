@@ -1,36 +1,37 @@
 function WalkerObject() {
-  this.stack = [];
+  this._stack = [];
+  this.initialParams = [[]];
 };
 WalkerObject.prototype = {
   constructor: WalkerObject,
-  child: function(cb, node, key, path) {
+  child: function(cb, node, path) {
     var next;
     if(typeof node === 'object') {
-      this.stack.unshift(Object.keys(node).map(function(key) {
+      this._stack.unshift(Object.keys(node).map(function(key) {
         return {
           key: key,
           val: node[key]
         };
       }));
-      next = this.stack[0].shift();
+      next = this._stack[0].shift();
     }
     if(next) {
-      cb(next.val, next.key, path.concat(next.key));
+      cb(next.val, path.concat(next.key));
     }
   },
-  sibling: function(cb, node, key, path) {
+  sibling: function(cb, node, path) {
     var next;
-    if(this.stack.length) {
-      var level = this.stack[0];
+    if(this._stack.length) {
+      var level = this._stack[0];
       if(level.length) {
         next = level.shift();
       } else {
-        this.stack.shift();
+        this._stack.shift();
       }
     }
     if(next) {
       path.pop();
-      cb(next.val, next.key, path.concat(next.key));
+      cb(next.val, path.concat(next.key));
     }
   }
 };

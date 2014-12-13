@@ -30,6 +30,7 @@ WalkerObject.prototype = {
   },
   sibling: function(cb, node, path) {
     var next;
+    path = [].concat(path);
     if(this._stack.length) {
       var level = this._stack[0];
       if(level.length) {
